@@ -7,4 +7,8 @@ export function mainMiddleware(req: NextRequest) {
   return res;
 }
 
-export default AuthMiddle(mainMiddleware, ["/"]);
+export default AuthMiddle(mainMiddleware, [
+  "/",
+  "/admin",
+  "/auth/register/admin",
+]);

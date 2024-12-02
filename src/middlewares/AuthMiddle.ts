@@ -13,12 +13,16 @@ export default function AuthMiddle(
 ) {
   return async (req: NextRequest, next: NextFetchEvent) => {
     const path = req.nextUrl.pathname;
-
+    const adminOnly = ["/admin"];
     if (requireAuth.includes(path)) {
       const token = await getToken({
         req,
         secret: process.env.NEXTAUTH_SECRET,
       });
+
+      if (token?.role !== "admin" && adminOnly.includes(path)) {
+        return NextResponse.redirect(new URL("/", req.url));
+      }
 
       if (!token) {
         const url = new URL("/auth/login", req.url);

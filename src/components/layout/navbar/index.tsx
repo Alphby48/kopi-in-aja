@@ -14,7 +14,7 @@ const NavbarLayout = () => {
   const { data }: any = useSession();
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  console.log(data);
+
   useEffect(() => {
     const controlNavbar = () => {
       const windowY = window.scrollY;
