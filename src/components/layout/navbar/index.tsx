@@ -38,34 +38,30 @@ const NavbarLayout = () => {
   return (
     <>
       {visible && (
-        <div className="fixed flex justify-between items-center p-1 w-full bg-light border-b-2 border-slate-300">
-          <div>
+        <div className="fixed flex justify-between items-center p-1 w-full bg-[rgba(24,19,7,0.7)] border-b-2 border-primaryDark">
+          <div className="flex items-center gap-3 justify-center">
             <Image
               className="rounded-full"
-              src="/logo_cafe_circle.png"
+              src="/logo_cafe.png"
               alt="logo"
               width={70}
               height={70}
             />
+            <h1 className={`${poppins.className}`}>
+              <span className="text-xl text-secondary">Kopi</span>{" "}
+              <span className="text-xl text-dark">In</span>{" "}
+              <span className="text-xl text-secondary">Aja</span>
+            </h1>
           </div>
           <div className="flex w-2/5 justify-evenly">
-            <Link
-              href="/"
-              className={`text-xl text-light ${poppins.className}`}
-            >
+            <Link href="/" className={`text-xl text-dark ${poppins.className}`}>
               Home
             </Link>
-            <Link
-              href="/"
-              className={`text-xl text-light ${poppins.className}`}
-            >
-              About
-            </Link>
-            <Link
-              href="/"
-              className={`text-xl text-light ${poppins.className}`}
-            >
+            <Link href="/" className={`text-xl text-dark ${poppins.className}`}>
               Product
+            </Link>
+            <Link href="/" className={`text-xl text-dark ${poppins.className}`}>
+              User
             </Link>
           </div>
           <div className={`flex items-center gap-3`}>
@@ -78,7 +74,7 @@ const NavbarLayout = () => {
                 height={60}
               ></Image>
             ) : null}
-            <p className={`${poppins.className} text-xl text-light`}>
+            <p className={`${poppins.className} text-xl text-dark`}>
               {data && data.user.fullname}
             </p>
             <button

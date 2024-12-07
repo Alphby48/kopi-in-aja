@@ -1,8 +1,11 @@
+import SidebarLayout from "@/components/layout/sidebar";
+import AdminView from "@/views/Admin";
+
 const adminPage = () => {
   return (
-    <div>
-      <h1>Admin</h1>
-    </div>
+    <SidebarLayout>
+      <AdminView />
+    </SidebarLayout>
   );
 };
 

@@ -19,6 +19,7 @@ export default {
       textColor: {
         light: "#4b4035",
         dark: "#cabfb4",
+        secondary: "#dab58b",
       },
       colors: {
         primary: "#8c5a2b",
