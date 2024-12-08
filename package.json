@@ -6,17 +6,21 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "install": "install --force"
   },
   "dependencies": {
     "axios": "^1.7.8",
     "firebase": "^11.0.2",
+    "multer": "^1.4.5-lts.1",
     "next": "15.0.3",
     "next-auth": "^4.24.10",
+    "next-connect": "^1.0.0-next.4",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106"
   },
   "devDependencies": {
+    "@types/multer": "^1.4.12",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

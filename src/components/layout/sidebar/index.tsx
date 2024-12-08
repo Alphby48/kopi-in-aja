@@ -12,13 +12,15 @@ const SidebarLayout = (props: sidebarTyoe) => {
     <div className={`flex w-full`}>
       <aside className="w-1/5 h-screen flex flex-col gap-5 p-5 bg-light">
         <div className="flex items-center gap-3">
-          <Image
-            src="/logo_cafe.png"
-            alt="logo"
-            width={70}
-            height={70}
-            className="rounded-full"
-          ></Image>
+          <Link href={"/"}>
+            <Image
+              src="/logo_cafe.png"
+              alt="logo"
+              width={70}
+              height={70}
+              className="rounded-full"
+            ></Image>
+          </Link>
           <h1 className={`${poppins.className}`}>
             <span className="text-xl text-secondaryDark">Kopi</span>{" "}
             <span className="text-xl text-light">In</span>{" "}
@@ -33,7 +35,7 @@ const SidebarLayout = (props: sidebarTyoe) => {
             Dashboard
           </Link>
           <Link
-            href={`/admin`}
+            href={`/admin/add-product`}
             className={`${poppins.className} p-3 bg-accent hover:bg-secondary rounded-md`}
           >
             Add Product

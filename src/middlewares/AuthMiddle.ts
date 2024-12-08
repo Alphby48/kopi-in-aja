@@ -13,7 +13,7 @@ export default function AuthMiddle(
 ) {
   return async (req: NextRequest, next: NextFetchEvent) => {
     const path = req.nextUrl.pathname;
-    const adminOnly = ["/admin"];
+    const adminOnly = ["/admin", "/admin/add-product"];
     if (requireAuth.includes(path)) {
       const token = await getToken({
         req,

@@ -10,5 +10,6 @@ export function mainMiddleware(req: NextRequest) {
 export default AuthMiddle(mainMiddleware, [
   "/",
   "/admin",
+  "/admin/add-product",
   "/auth/register/admin",
 ]);

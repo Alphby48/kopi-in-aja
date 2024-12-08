@@ -35,6 +35,7 @@ export default {
       borderColor: {
         secondary: "#dab58b",
         light: "#f8f3e7",
+        dark: "#181307",
       },
     },
   },

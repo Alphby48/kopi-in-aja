@@ -1,6 +1,6 @@
 const AdminView = () => {
   return (
-    <div>
+    <div className="w-4/5 min-h-screen bg-slate-50">
       <h1>admin</h1>
     </div>
   );
