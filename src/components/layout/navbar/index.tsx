@@ -57,8 +57,11 @@ const NavbarLayout = () => {
             <Link href="/" className={`text-xl text-dark ${poppins.className}`}>
               Home
             </Link>
-            <Link href="/" className={`text-xl text-dark ${poppins.className}`}>
-              Product
+            <Link
+              href="/product"
+              className={`text-xl text-dark ${poppins.className}`}
+            >
+              Menu
             </Link>
             <Link href="/" className={`text-xl text-dark ${poppins.className}`}>
               User

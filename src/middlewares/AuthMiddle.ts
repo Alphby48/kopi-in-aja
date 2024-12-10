@@ -20,14 +20,14 @@ export default function AuthMiddle(
         secret: process.env.NEXTAUTH_SECRET,
       });
 
-      if (token?.role !== "admin" && adminOnly.includes(path)) {
-        return NextResponse.redirect(new URL("/", req.url));
-      }
-
       if (!token) {
         const url = new URL("/auth/login", req.url);
         url.searchParams.set("callbackUrl", encodeURI(req.url));
         return NextResponse.redirect(url);
+      }
+
+      if (token?.role !== "admin" && adminOnly.includes(path)) {
+        return NextResponse.redirect(new URL("/", req.url));
       }
     }
   };

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { login } from "@/lib/firebase/service.login";
 import { loginWithGoogle } from "@/lib/firebase/service.login.google";
+
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -43,6 +44,11 @@ const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
+    // async redirect({ url, baseUrl }) {
+    //   // Force redirect to the correct base URL (ngrok in your case)
+    //   console.log("Redirecting to URL:", url); // Debugging
+    //   return url.startsWith(baseUrl) ? url : baseUrl;
+    // },
     async jwt({ token, account, user }: any) {
       if (account?.provider === "credentials") {
         token.email = user?.email;
@@ -89,6 +95,7 @@ const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/login",
   },
+  // debug: true,
 };
 
 export default NextAuth(authOptions);

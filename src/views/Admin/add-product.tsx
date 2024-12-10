@@ -15,6 +15,7 @@ const AddProductView = () => {
     message: "",
   });
   const [visible, setVisible] = useState(false);
+  const [isBtn, SetIsBtn] = useState(false);
   const numberFormat = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
@@ -28,6 +29,7 @@ const AddProductView = () => {
   const handleSending = async (e: any) => {
     e.preventDefault();
     setVisible(false);
+    SetIsBtn(true);
     const file = e.target.uploaded_file.files[0];
     if (!file) {
       return;
@@ -40,7 +42,7 @@ const AddProductView = () => {
     formData.append("image", file);
     formData.append("category", e.target.category.value);
 
-    await fetch("http://localhost:3000/api/admin/add-product", {
+    await fetch("/api/admin/add-product", {
       method: "POST",
 
       body: formData,
@@ -49,6 +51,7 @@ const AddProductView = () => {
       .then((call) => {
         setIsData(call);
         setVisible(true);
+        SetIsBtn(false);
       })
       .catch((err) => console.log(err));
 
@@ -148,12 +151,22 @@ const AddProductView = () => {
             <p className="text-sm text-red-400">{`* ${stok} pcs`}</p>
           </div>
           <div>
-            <button
-              type="submit"
-              className="bg-accent hover:bg-secondary px-5 py-2 mt-5 rounded-md"
-            >
-              Tambah
-            </button>
+            {isBtn ? (
+              <button
+                type="submit"
+                disabled
+                className={`bg-yellow-300 px-5 py-2 mt-5 rounded-md ${poppins.className}`}
+              >
+                Loading...
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className={`bg-accent hover:bg-secondary px-5 py-2 mt-5 rounded-md ${poppins.className}`}
+              >
+                Tambah
+              </button>
+            )}
           </div>
         </div>
         <div className="flex flex-col gap-3 my-5 w-1/2 items-center">
