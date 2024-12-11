@@ -14,7 +14,18 @@ export default function AuthMiddle(
   return async (req: NextRequest, next: NextFetchEvent) => {
     const path = req.nextUrl.pathname;
     const adminOnly = ["/admin", "/admin/add-product"];
-    if (requireAuth.includes(path)) {
+    const requireAuthPath = ["/product/**", ...requireAuth];
+
+    const mathPoint = (pathname: string) => {
+      return requireAuthPath.some((pattern) => {
+        const regex = new RegExp(
+          `^${pattern.replace(/\*\*/g, ".*").replace(/\*/g, "[^/]*")}$`
+        );
+        return regex.test(pathname);
+      });
+    };
+
+    if (mathPoint(path)) {
       const token = await getToken({
         req,
         secret: process.env.NEXTAUTH_SECRET,

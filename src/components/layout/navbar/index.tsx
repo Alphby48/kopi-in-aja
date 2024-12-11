@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Poppins } from "next/font/google";
 import { useEffect, useState } from "react";
-import { signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -80,12 +80,21 @@ const NavbarLayout = () => {
             <p className={`${poppins.className} text-xl text-dark`}>
               {data && data.user.fullname}
             </p>
-            <button
-              onClick={() => signOut({ callbackUrl: "/" })}
-              className={`${poppins.className} text-xl rounded-lg p-2 bg-accent`}
-            >
-              Logout
-            </button>
+            {data?.user?.fullname ? (
+              <button
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className={`${poppins.className} text-xl rounded-lg p-2 bg-accent`}
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={() => signIn()}
+                className={`${poppins.className} text-xl rounded-lg p-2 bg-accent`}
+              >
+                Login
+              </button>
+            )}
           </div>
         </div>
       )}
