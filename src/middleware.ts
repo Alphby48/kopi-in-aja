@@ -13,4 +13,5 @@ export default AuthMiddle(mainMiddleware, [
   "/auth/register/admin",
   "/product",
   "/product/**",
+  "/order",
 ]);

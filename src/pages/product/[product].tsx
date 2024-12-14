@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
 import { poppins } from "@/font/font";
@@ -8,9 +9,16 @@ import { lora } from "@/font/font";
 import { useState } from "react";
 
 import CustomErrorPage from "../404";
+import { useSession } from "next-auth/react";
+import { stat } from "fs";
+import LoadElement from "@/components/elements/loading";
 const DetailProductPage = ({ product }: any) => {
   console.log(product);
   const [state, setState] = useState(1);
+  const [condition, setCondition] = useState(false);
+  const [msg, setMsg] = useState({ status: false, message: "" });
+  const [alert, setAlert] = useState(false);
+  const { data } = useSession();
   const handlePlus = () => {
     if (state < product.stock) {
       setState(state + 1);
@@ -22,9 +30,39 @@ const DetailProductPage = ({ product }: any) => {
     }
   };
 
+  const handleOrder = async () => {
+    setCondition(true);
+    setAlert(false);
+    const addData = {
+      email: data?.user?.email,
+      idOrder: product.id,
+      qty: state,
+    };
+    await fetch(`/api/order`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(addData),
+    })
+      .then((res) => res.json())
+      .then((call) => {
+        setMsg(call);
+        setAlert(true);
+        setCondition(false);
+      });
+  };
+
   if (product) {
     return (
-      <div>
+      <div className="flex flex-col justify-center items-center w-full min-h-screen">
+        {alert && (
+          <div className="flex justify-center items-center w-1/2 bg-[#96742680] rounded-md p-3">
+            <p
+              className={`${poppins.className} text-base font-medium text-dark text-center`}
+            >
+              {msg.message}
+            </p>
+          </div>
+        )}
         <div className="flex justify-around items-center w-full min-h-screen text-dark">
           <div className="w-1/2 flex justify-center items-center">
             <Image
@@ -67,8 +105,22 @@ const DetailProductPage = ({ product }: any) => {
                 </button>
               </div>
               <div>
-                <button className="py-2 px-4 bg-accent rounded-lg text-light flex gap-3 justify-center items-center">
-                  <FaCartPlus size={20} /> Add to Cart
+                <button
+                  className="py-2 px-4 bg-accent rounded-lg text-light flex gap-3 justify-center items-center"
+                  onClick={handleOrder}
+                >
+                  {condition ? (
+                    <LoadElement
+                      w="w-5"
+                      h="h-5"
+                      color="fill-blue-600"
+                    ></LoadElement>
+                  ) : (
+                    <>
+                      <FaCartPlus size={20} />
+                      <p>Add to Cart</p>
+                    </>
+                  )}
                 </button>
               </div>
             </div>
