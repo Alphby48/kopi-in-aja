@@ -66,7 +66,7 @@ const DetailProductPage = ({ product }: any) => {
         <div className="flex justify-around items-center w-full min-h-screen text-dark">
           <div className="w-1/2 flex justify-center items-center">
             <Image
-              src={`/produkImg/${product.image}`}
+              src={`${process.env.NEXT_PUBLIC_API_URL}/api/serve-file?filename=${product.image}`}
               alt="logo"
               width={400}
               height={200}

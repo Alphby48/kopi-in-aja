@@ -106,7 +106,9 @@ const OrderPage = () => {
               >
                 <Image
                   className="rounded-md w-32 h-24"
-                  src={`/produkImg/${dataView!.image}`}
+                  src={`${
+                    process.env.NEXT_PUBLIC_API_URL
+                  }/api/serve-file?filename=${dataView!.image}`}
                   width={100}
                   height={100}
                   alt={dataView!.name}

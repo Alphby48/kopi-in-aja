@@ -22,7 +22,7 @@ const ProductsView = (props: any) => {
             >
               <Image
                 className="w-36 h-20"
-                src={`/produkImg/${p.image}`}
+                src={`${process.env.NEXT_PUBLIC_API_URL}/api/serve-file?filename=${p.image}`}
                 alt={p.name}
                 width={100}
                 height={100}
