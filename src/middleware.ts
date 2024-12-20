@@ -14,4 +14,5 @@ export default AuthMiddle(mainMiddleware, [
   "/product",
   "/product/**",
   "/order",
+  "/profile",
 ]);

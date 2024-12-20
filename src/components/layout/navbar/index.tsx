@@ -38,7 +38,7 @@ const NavbarLayout = () => {
   return (
     <>
       {visible && (
-        <div className="fixed flex justify-between items-center p-1 w-full bg-[rgba(24,19,7,0.7)] border-b-2 border-primaryDark">
+        <div className="fixed flex justify-between items-center p-1 w-full bg-[rgba(24,19,7,0.7)] border-b-2 border-primaryDark z-50">
           <div className="flex items-center gap-3 justify-center">
             <Image
               className="rounded-full"
@@ -71,18 +71,22 @@ const NavbarLayout = () => {
             </Link>
           </div>
           <div className={`flex items-center gap-3`}>
-            {data && data.user.image ? (
-              <Image
-                className="rounded-full"
-                src={data && data.user.image}
-                alt="logo"
-                width={60}
-                height={60}
-              ></Image>
-            ) : null}
-            <p className={`${poppins.className} text-xl text-dark`}>
-              {data && data.user.fullname}
-            </p>
+            {data && (
+              <Link href={`/profile`} className="flex items-center gap-3">
+                {data && data.user.image ? (
+                  <Image
+                    className="rounded-full"
+                    src={data && data.user.image}
+                    alt="logo"
+                    width={60}
+                    height={60}
+                  ></Image>
+                ) : null}
+                <p className={`${poppins.className} text-xl text-dark`}>
+                  {data && data.user.fullname}
+                </p>
+              </Link>
+            )}
             {data?.user?.fullname ? (
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
