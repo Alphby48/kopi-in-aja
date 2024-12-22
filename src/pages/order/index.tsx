@@ -10,14 +10,33 @@ import { IoMdCloseCircle } from "react-icons/io";
 
 import Link from "next/link";
 import LoadElement from "@/components/elements/loading";
+import { useRouter } from "next/router";
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  // other properties
+}
+
+interface Order {
+  idOrder: number;
+  qty: number;
+  price: number;
+  name: string;
+  // other properties
+}
 
 const OrderPage = () => {
   const { data }: any = useSession();
+  const { push } = useRouter();
   const [dataOrder, setDataOrder] = useState([]);
   const [dataProduct, setDataProduct] = useState([]);
+  const [allData, setAllData] = useState([]);
   const [totalOrder, setTotalOrder] = useState(0);
   const [msg, setMsg] = useState({ status: false, message: "" });
   const [action, setAction] = useState(false);
+  const [isValue, setIsValue] = useState("");
   useEffect(() => {
     fetch(`/api/order?email=${data?.user?.email}`, {
       method: "GET",
@@ -48,6 +67,22 @@ const OrderPage = () => {
     setTotalOrder(totalPrice);
   }, [dataOrder, dataProduct]);
 
+  useEffect(() => {
+    if (dataProduct.length > 0) {
+      const newOrd: any = dataOrder.map((d: any) => {
+        const prd: any = dataProduct.find((p: any) => p.id === d.idOrder);
+        return {
+          idOrder: d.idOrder,
+          qty: d.qty,
+          price: prd?.price,
+          name: prd?.name,
+          total: prd?.price * d.qty,
+        };
+      });
+      setAllData(newOrd);
+    }
+  }, [dataOrder, dataProduct]);
+
   const handleRemove = async (id: any) => {
     setAction(true);
     const dataDelete = {
@@ -64,6 +99,27 @@ const OrderPage = () => {
         setAction(false);
       })
       .catch((err) => console.log(err));
+  };
+
+  const handleOrder = async (e: any) => {
+    e.preventDefault();
+
+    const dataAdd = {
+      fullname: data?.user?.fullname,
+      method: e.target.order.value,
+      table: e.target?.table?.value || "tidak ada",
+      order: allData,
+    };
+    await fetch("/api/orderInCashier", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataAdd),
+    })
+      .then((res) => res.json())
+      .then((res) => push("/process"))
+      .catch((err) => console.log(err));
+
+    console.log(allData);
   };
 
   return (
@@ -151,10 +207,36 @@ const OrderPage = () => {
                 })}
             </p>
           </div>
-          <div>
-            <button className="bg-accent hover:bg-secondary p-2 rounded-md text-light">
-              Bayar Pesanan
-            </button>
+          <div className="flex gap-3 items-center">
+            <form action="" className="flex gap-2" onSubmit={handleOrder}>
+              <select
+                className="p-2 rounded-md bg-primaryDark text-light"
+                name="order"
+                id="order"
+                onChange={(e) => setIsValue(e.target.value)}
+              >
+                <option value="">Pilih Metode</option>
+                <option value="dine in">Dine In</option>
+                <option value="take away">Take Away</option>
+              </select>
+              {isValue === "dine in" && (
+                <select
+                  name="table"
+                  id="table"
+                  className="p-2 rounded-md bg-primaryDark text-light"
+                >
+                  <option value="meja 1">Meja 1</option>
+                  <option value="meja 2">Meja 2</option>
+                  <option value="meja 3">Meja 3</option>
+                </select>
+              )}
+              <button
+                type="submit"
+                className="bg-accent hover:bg-secondary p-2 rounded-md text-light"
+              >
+                Pesan
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -170,3 +252,18 @@ const OrderPage = () => {
 };
 
 export default OrderPage;
+
+// const dataAdd = {
+//   fullname: data?.user?.fullname,
+//   method: e.target.order.value,
+//   table: e.target?.table?.value || "tidak ada",
+//   order: dataOrder,
+// };
+// await fetch("/api/orderInCashier", {
+//   method: "POST",
+//   headers: { "Content-Type": "application/json" },
+//   body: JSON.stringify(dataAdd),
+// })
+//   .then((res) => res.json())
+//   .then((res) => push("/process"))
+//   .catch((err) => console.log(err));

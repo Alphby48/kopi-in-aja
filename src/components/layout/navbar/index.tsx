@@ -69,6 +69,12 @@ const NavbarLayout = () => {
             >
               Order
             </Link>
+            <Link
+              href="/process"
+              className={`text-xl text-dark ${poppins.className}`}
+            >
+              Process
+            </Link>
           </div>
           <div className={`flex items-center gap-3`}>
             {data && (
