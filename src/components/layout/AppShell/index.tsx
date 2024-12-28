@@ -6,6 +6,7 @@ const disablePath = [
   "/auth/register/admin",
   "/admin",
   "/admin/add-product",
+  "/admin/order-control",
 ];
 
 type AppShellType = {

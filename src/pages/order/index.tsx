@@ -7,7 +7,7 @@ import Image from "next/image";
 import { poppins, lora } from "@/font/font";
 import { MdRestoreFromTrash } from "react-icons/md";
 import { IoMdCloseCircle } from "react-icons/io";
-
+import { socket } from "@/lib/socket/socket";
 import Link from "next/link";
 import LoadElement from "@/components/elements/loading";
 import { useRouter } from "next/router";
@@ -37,6 +37,7 @@ const OrderPage = () => {
   const [msg, setMsg] = useState({ status: false, message: "" });
   const [action, setAction] = useState(false);
   const [isValue, setIsValue] = useState("");
+
   useEffect(() => {
     fetch(`/api/order?email=${data?.user?.email}`, {
       method: "GET",
@@ -83,6 +84,10 @@ const OrderPage = () => {
     }
   }, [dataOrder, dataProduct]);
 
+  useEffect(() => {
+    socket.connect();
+  }, []);
+
   const handleRemove = async (id: any) => {
     setAction(true);
     const dataDelete = {
@@ -108,7 +113,9 @@ const OrderPage = () => {
       fullname: data?.user?.fullname,
       method: e.target.order.value,
       table: e.target?.table?.value || "tidak ada",
+      orderStatus: "pesanan diajukan",
       order: allData,
+      totals: totalOrder,
     };
     await fetch("/api/orderInCashier", {
       method: "POST",
@@ -119,7 +126,7 @@ const OrderPage = () => {
       .then((res) => push("/process"))
       .catch((err) => console.log(err));
 
-    console.log(allData);
+    socket.emit("order", data?.user?.fullname);
   };
 
   return (

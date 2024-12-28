@@ -10,7 +10,7 @@ const SidebarLayout = (props: sidebarTyoe) => {
   const { children } = props;
   return (
     <div className={`flex w-full`}>
-      <aside className="w-1/5 h-screen flex flex-col gap-5 p-5 bg-light">
+      <aside className="w-1/5 h-screen flex flex-col gap-5 p-5 bg-light sticky top-0">
         <div className="flex items-center gap-3">
           <Link href={"/"}>
             <Image
@@ -51,6 +51,12 @@ const SidebarLayout = (props: sidebarTyoe) => {
             className={`${poppins.className} p-3 bg-accent hover:bg-secondary rounded-md`}
           >
             Users Control
+          </Link>
+          <Link
+            href={`/admin/order-control`}
+            className={`${poppins.className} p-3 bg-accent hover:bg-secondary rounded-md`}
+          >
+            Orders Control
           </Link>
         </div>
       </aside>

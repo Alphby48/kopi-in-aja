@@ -16,4 +16,5 @@ export default AuthMiddle(mainMiddleware, [
   "/order",
   "/profile",
   "/process",
+  "/admin/order-control",
 ]);
