@@ -22,9 +22,9 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "https://kopiinaja-zeta.vercel.app",
+        hostname: "kopiinaja-zeta.vercel.app",
         port: "",
-        pathname: "/api/serve-file",
+        pathname: "**",
       },
     ],
   },
