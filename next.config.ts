@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "http",
-        hostname: "localhost",
+        hostname: process.env.NEXT_PUBLIC_API_URL as string,
         port: "3000",
         pathname: "/api/serve-file",
       },
