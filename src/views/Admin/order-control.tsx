@@ -16,7 +16,10 @@ const OrderControlView = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`/api/admin/process`)
+    fetch(`/api/admin/process`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
       .then((res) => res.json())
       .then((res) => {
         if (res.status) {
@@ -28,11 +31,22 @@ const OrderControlView = () => {
 
   const handleChange = async (e: any) => {
     e.preventDefault();
-    const dataUpdate = {
+    const dataToDB = {
       id: e.target.id.value,
-      statusOrder: e.target?.statusOrder?.value,
+      orderStatus: e.target?.statusOrder?.value,
+      fullname: e.target.name.value,
     };
-    console.log(dataUpdate);
+
+    await fetch(`/api/admin/process?by=admin`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dataToDB),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+
+    socket.emit("order", dataToDB);
   };
 
   return (
@@ -82,6 +96,12 @@ const OrderControlView = () => {
                   <div className="p-3 bg-accent text-lg rounded-sm">
                     <form onSubmit={handleChange} className="flex gap-3">
                       <input type="hidden" name="id" value={data.id} id="id" />
+                      <input
+                        type="hidden"
+                        name="name"
+                        value={data.fullname}
+                        id="name"
+                      />
                       <select name="statusOrder" id="statusOrder">
                         <option value={data.orderStatus}>
                           {data.orderStatus}
@@ -90,6 +110,9 @@ const OrderControlView = () => {
                           Pesanan Diproses
                         </option>
                         <option value="pesanan selesai">Pesanan Selesai</option>
+                        <option value="pesanan dibatalkan">
+                          Pesanan Dibatalkan
+                        </option>
                       </select>
                       <button
                         type="submit"
@@ -105,7 +128,7 @@ const OrderControlView = () => {
           })}
       </div>
       {dataSocket !== null && (
-        <div className=" absolute top-3 right-3 p-5 bg-light rounded-md">
+        <div className=" fixed top-3 right-3 p-5 bg-light rounded-md">
           <p>Pesanan dari {dataSocket}</p>
         </div>
       )}

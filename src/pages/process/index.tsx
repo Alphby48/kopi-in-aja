@@ -5,11 +5,14 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { poppins } from "@/font/font";
+import { socket } from "@/lib/socket/socket";
 
 const ProcessPage = () => {
   const { data }: any = useSession();
   const [dataOrder, setDataOrder] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [dataSocket, setDataSocket] = useState(false);
+
   useEffect(() => {
     fetch(`/api/process?fullname=${data?.user?.fullname}`)
       .then((res) => res.json())
@@ -22,9 +25,27 @@ const ProcessPage = () => {
       .catch((err) => console.log(err));
   }, [data]);
 
+  useEffect(() => {
+    socket.connect();
+    socket.on("admin", (dataSoc: any) => {
+      // if (dataOrder.map((d: any) => d.id).includes(dataSoc.id)) {
+      //   dataOrder.map((d: any) => {
+      //     d.orderStatus = dataSoc.orderStatus;
+      //   });
+      // }
+      //setDataSocket(!dataSocket);
+      if (data?.user?.fullname === dataSoc.fullname) {
+        window.location.reload();
+      } else {
+        return false;
+      }
+    });
+  }, [data]);
+
   return (
     <div
       className={`${poppins.className} flex flex-col gap-5 w-full min-h-screen p-4 text-dark`}
+      id={dataSocket === null ? "hidden" : "show"}
     >
       {dataOrder.length > 0 &&
         dataOrder.map((data: any) => {
